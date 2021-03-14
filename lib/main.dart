@@ -7,7 +7,8 @@ void main() => runApp(First_page());
 class First_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("Date time");
+    // print("Date time");
+    print("OOOOOOOOOOk");
     print(new DateTime.now().toString());
     return MaterialApp(
         title: 'Corner',
