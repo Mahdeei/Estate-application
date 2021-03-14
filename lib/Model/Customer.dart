@@ -1,5 +1,6 @@
 import 'package:flutter_amlak/Model/Persons.dart';
 
-class Customer extends Persons{
+class Persons extends malek{
   var note;
+  var date;
 }

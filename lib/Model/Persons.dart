@@ -1,4 +1,5 @@
-class Persons{
+class malek{
+  var id;
   var name;
-  var phone;
+  var mobile_phone;
 }

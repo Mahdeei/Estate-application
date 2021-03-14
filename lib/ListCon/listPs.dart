@@ -1,5 +1,7 @@
-import 'package:flutter_amlak/Model/Person.dart';
+import 'package:flutter_amlak/Http/get_teammate.dart';
+import 'package:flutter_amlak/Model/Customer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_amlak/Model/Person.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,12 +14,15 @@ class Listcontact extends StatefulWidget {
 }
 
 class _ListcontactState extends State<Listcontact> {
+
+
+  List<Persons> persons = [];
   Size phoneSize;
   bool isLoading = true;
   bool isTick;
   TextEditingController _controllerMessage;
 
-  List<Person> persons = [];
+
 
   showD(int i, {int index}) {
     if (i == 0)
@@ -49,7 +54,7 @@ class _ListcontactState extends State<Listcontact> {
   void _sendSMS(String _message) async {
     List<String> recipents = [];
     persons.forEach((element) {
-      recipents.add(element.mobilePhone.toString());
+      // recipents.add(element.mobilePhone.toString());
     });
 
     try {
@@ -68,20 +73,53 @@ class _ListcontactState extends State<Listcontact> {
   }
 
   @override
+  void initState() {
+
+    super.initState();
+
+    _getTeammate();
+  }
+
+  _getTeammate() async {
+    if(this.mounted){
+      var x =  await HttpTeammate.getData();
+      persons.addAll(x);
+      setState(() {
+      });
+      persons.forEach((element) {
+        print(element.name);
+      });
+    }
+
+
+
+  }
+
+
+  @override
   Widget build(BuildContext context) {
     phoneSize = MediaQuery.of(context).size;
     return Directionality(
         textDirection: TextDirection.rtl,
-        child: ListView.separated(
+        child: persons.length==0
+            ? new Container(
+            width: 50.0,
+            height: 50.0,
+              child: new CircularProgressIndicator())
+          : ListView.separated(
             separatorBuilder: (context, index) => Divider(
                   color: Colors.black12,
                 ),
-            itemCount: 5,
+            itemCount:  persons.length ,
             // ignore: non_constant_identifier_names
-            itemBuilder: (BuildContext context, int Index) {
+            itemBuilder: (BuildContext context, int index) {
+              // print("index");
+              // print(index);
               return ListItem(
-                  isTick: isTick, chBox: changeBox, inend: Index, showD: showD);
-            }));
+                  isTick: isTick, chBox: changeBox, inend: index, showD: showD,person: persons[index],);
+            })
+
+    );
   }
 }
 
@@ -92,10 +130,13 @@ class ListItem extends StatelessWidget {
   int inend;
   String _phoneNumber;
   var showD;
-  ListItem({this.isTick, this.chBox, this.inend, this.showD});
+  Persons person;
+  ListItem({this.isTick, this.chBox, this.inend, this.showD,this.person});
 
   @override
   Widget build(BuildContext context) {
+    // print("person.id");
+    // print(person.id);
     return Slidable(
         actionPane: SlidableDrawerActionPane(),
         actions: <Widget>[
@@ -138,11 +179,11 @@ class ListItem extends StatelessWidget {
             return showDialog<String>(
                 context: context,
                 builder: (BuildContext ctx) => new AlertDialog(
-                      title: new Text('fhdlksjskd'),
-                      content: new Text('fhdlksdddddjskd'),
+                      title: new Text(person.name),
+                      content: new Text(person.note),
                     ));
           },
-          title: inend == 0 ? new Text('پیامک همگانی') : new Text('dslkfjds'),
+          title: inend == 0 ? new Text('پیامک همگانی') : new Text(person.name),
           leading: CircleAvatar(
             child: new Text('d'),
             backgroundColor: Colors.blueGrey,
