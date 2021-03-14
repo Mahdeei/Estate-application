@@ -1,7 +1,7 @@
-import 'package:flutter_amlak/ListCon/Listcon.dart';
-import 'package:flutter_amlak/ListCon/listPs.dart';
+import 'package:amlak/ListCon/Listcon.dart';
+import 'package:amlak/ListCon/listPs.dart';
+import 'package:amlak/ListCon/ListPersons.dart';
 import 'package:flutter/material.dart';
-import 'ListPersons.dart';
 
 // ignore: must_be_immutable
 class Tabbare extends StatefulWidget {
