@@ -1,3 +1,6 @@
+//in bayad splash screens bashe na screen // mahdi nemdonam barai man ham moskel push ro peyda kared ramz mikhad
+
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import '../home.dart';
